@@ -2,6 +2,7 @@ var pull = require('pull-stream')
 var ref = require('ssb-ref')
 var More = require('pull-more')
 var HyperMoreStream = require('hyperloadmore/stream')
+var h = require('hyperscript')
 
 exports.needs = {
   sbot: { createLogStream: 'first' },
@@ -29,10 +30,7 @@ exports.create = function (api) {
               return 'string' === typeof data.value.content.text
             }),
             pull.map(function (msg) {
-              var pre = document.createElement('pre')
-              pre.classname = 'raw__json'
-              pre.textContent = rawJSON(msg)
-              return pre
+              return h('pre.raw__json', {id: msg.key}, rawJSON(msg))
             })
           )
         }
@@ -56,6 +54,8 @@ exports.create = function (api) {
     }
   }
 }
+
+
 
 
 
